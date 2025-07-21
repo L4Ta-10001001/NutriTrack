@@ -14,7 +14,7 @@ function actualizarEmailDelUsuario() {
 ///video
 async function cargarUsuarios() {
   try {
-    const request = await fetch("usuarios", {
+    const request = await fetch("api/usuarios", {
       method: "GET",
       headers: getHeaders(),
     });
@@ -66,7 +66,7 @@ async function eliminarUsuario(id) {
     return;
   }
 
-  const request = await fetch("usuarios/" + id, {
+  const request = await fetch("api/usuarios/" + id, {
     method: "DELETE",
     headers: getHeaders(),
   });
