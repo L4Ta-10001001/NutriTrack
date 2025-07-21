@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consumos - NutriTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-apple-alt"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">NutriTrack</div>
+      </a>
+
+      <hr class="sidebar-divider my-0" />
+
+      <!-- Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <!-- Gestión de Usuarios -->
+      <li class="nav-item">
+        <a class="nav-link" href="usuarios.html">
+          <i class="fas fa-users"></i>
+          <span>Gestión de Usuarios</span>
+        </a>
+      </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="ingredientes.html">
+            <i class="fas fa-fw fa-apple-alt"></i>
+            <span>Ingredientes</span>
+          </a>
+        </li>
+      <!-- Recetas -->
+      <li class="nav-item">
+        <a class="nav-link" href="recetas.html">
+          <i class="fas fa-utensils"></i>
+          <span>Recetas</span>
+        </a>
+      </li>
+
+      <!-- Registro de Consumos -->
+      <li class="nav-item">
+        <a class="nav-link" href="registrar-consumos.html">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Registro Consumo Nutricional</span>
+        </a>
+      </li>
+
+      <!-- Consumos -->
+      <li class="nav-item active">
+        <a class="nav-link" href="consumos.html">
+          <i class="fas fa-chart-pie"></i>
+          <span>Consumos</span>
+        </a>
+      </li>
+
+      <!-- Recomendaciones -->
+      <li class="nav-item">
+        <a class="nav-link" href="recomendaciones.html">
+          <i class="fas fa-heartbeat"></i>
+          <span>Recomendaciones</span>
+        </a>
+      </li>
+
+      <hr class="sidebar-divider d-none d-md-block" />
+
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <h1 class="h3 mb-0 text-gray-800">Consumos Registrados</h1>
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Tabla de Consumos Simulada -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-success">Tabla de Consumos</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Usuario</th>
+                      <th>Alimento</th>
+                      <th>Fecha</th>
+                      <th>Cantidad (g)</th>
+                      <th>Calorías</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Juan Pérez</td>
+                      <td>Arroz</td>
+                      <td>2025-07-20</td>
+                      <td>150</td>
+                      <td>210</td>
+                    </tr>
+                    <tr>
+                      <td>María Gómez</td>
+                      <td>Pollo</td>
+                      <td>2025-07-20</td>
+                      <td>120</td>
+                      <td>220</td>
+                    </tr>
+                    <tr>
+                      <td>Carlos Ruiz</td>
+                      <td>Manzana</td>
+                      <td>2025-07-21</td>
+                      <td>100</td>
+                      <td>52</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="text-center my-auto">
+            <span>© NutriTrack 2025</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scripts -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+</body>
+</html>
