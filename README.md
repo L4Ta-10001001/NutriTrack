@@ -15,18 +15,18 @@ La aplicación está construida con:
 * 💻 Backend robusto en **Java + Spring Boot**
 * 🛡️ Autenticación segura con **JWT**
 * 📊 Análisis nutricional automatizado
-* 📦 Persistencia con **Hibernate + MySQL**
+* 📦 Persistencia con **Hibernate + PostgreSQL**
 * 🎨 Frontend moderno basado en **SB Admin 2 + HTML + JS**
 
 ---
 
 ## 🎯 **Objetivos del Proyecto**
 
-✅ Permitir la gestión de ingredientes con datos nutricionales.
-✅ Crear recetas asociando múltiples ingredientes.
-✅ Analizar el perfil nutricional total de una receta.
-✅ Brindar advertencias cuando se superen umbrales no saludables.
-✅ Sugerir ejercicios físicos para compensar calorías consumidas.
+✅ Permitir la gestión de ingredientes con datos nutricionales.  
+✅ Crear recetas asociando múltiples ingredientes.  
+✅ Analizar el perfil nutricional total de una receta.  
+✅ Brindar advertencias cuando se superen umbrales no saludables.  
+✅ Sugerir ejercicios físicos para compensar calorías consumidas.  
 ✅ Garantizar una experiencia fluida, segura e intuitiva.
 
 ---
@@ -38,7 +38,7 @@ La aplicación está construida con:
 * ![Java](https://img.shields.io/badge/Java-17-blue?logo=openjdk)
 * ![Spring Boot](https://img.shields.io/badge/Spring_Boot-Framework-success?logo=springboot)
 * ![Hibernate](https://img.shields.io/badge/Hibernate-JPA-59666C?logo=hibernate)
-* ![MySQL](https://img.shields.io/badge/MySQL-Database-blue?logo=mysql)
+* ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql)
 * ![JWT](https://img.shields.io/badge/JWT-Security-orange?logo=jsonwebtokens)
 
 ### 🎨 **Frontend:**
@@ -53,6 +53,7 @@ La aplicación está construida con:
 ## 📂 **Estructura del Proyecto**
 
 ```
+
 NutriZen/
 ├── src/
 │   ├── main/
@@ -68,7 +69,8 @@ NutriZen/
 │   │       └── templates/             # Plantillas HTML (SB Admin 2)
 ├── pom.xml                            # Dependencias Maven
 └── README.md
-```
+
+````
 
 ---
 
@@ -76,31 +78,47 @@ NutriZen/
 
 ### 📌 Requisitos Previos
 
-* Java 17
-* Maven 3.9+
+* Java 17  
+* Maven 3.9+  
 * Docker
 
 ---
 
-### 🐳 **Ejecución con Docker Compose para MySQL**
+### 🐳 **Ejecución Completa con Docker Compose (PostgreSQL + Backend)**
 
-Si prefieres levantar la base de datos con Docker, puedes usar este archivo `docker-compose.yml`:
+Puedes levantar toda la aplicación fácilmente con Docker Compose.
+
+#### ▶️ 1. Archivo `docker-compose.yml`:
 
 ```yaml
 version: '3.8'
+
 services:
   db:
-    image: mysql:8.0
+    image: postgres:15
     container_name: nutrizen-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: nutrizen
-      MYSQL_USER: nutrizen_user
-      MYSQL_PASSWORD: nutrizen_pass
+      POSTGRES_USER: nutrizen_user
+      POSTGRES_PASSWORD: nutrizen_pass
+      POSTGRES_DB: nutrizen
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - nutrizen-data:/var/lib/mysql
+      - nutrizen-data:/var/lib/postgresql/data
+    networks:
+      - nutrizen-net
+
+  app:
+    build: .
+    container_name: nutrizen-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/nutrizen
+      SPRING_DATASOURCE_USERNAME: nutrizen_user
+      SPRING_DATASOURCE_PASSWORD: nutrizen_pass
     networks:
       - nutrizen-net
 
@@ -109,39 +127,61 @@ volumes:
 
 networks:
   nutrizen-net:
-```
+````
 
-#### ▶️ Para levantar el contenedor:
+---
+
+#### ▶️ 2. Ejecutar la aplicación:
 
 ```bash
-docker-compose up -d
+docker-compose up --build
 ```
 
-#### 🛠️ Luego, en `application.properties`, configura:
+Esto levantará automáticamente la base de datos PostgreSQL y el backend Java.
+
+---
+
+#### 🛠️ Variables inyectadas:
+
+```env
+SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/nutrizen
+SPRING_DATASOURCE_USERNAME=nutrizen_user
+SPRING_DATASOURCE_PASSWORD=nutrizen_pass
+```
+
+Tu `application.properties` debe tener:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/nutrizen
-spring.datasource.username=nutrizen_user
-spring.datasource.password=nutrizen_pass
+spring.datasource.url=${SPRING_DATASOURCE_URL}
+spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 ```
 
-### ⚙️ Backend
+---
+
+#### 🌍 Acceso a la app:
+
+* Backend: [http://localhost:8080](http://localhost:8080)
+
+#### 🛑 Para detener los contenedores:
+
+```bash
+docker-compose down
+```
+
+---
+
+### ⚙️ Ejecutar el backend localmente (opcional)
 
 ```bash
 # Clona el repositorio
 git clone https://github.com/tunombre/nutrizen.git
 cd nutrizen
 
-# Configura tu archivo application.properties con la conexión a tu base de datos
-
+# Asegúrate de que PostgreSQL esté corriendo en tu máquina
 # Ejecuta el proyecto
 ./mvnw spring-boot:run
 ```
-
-### 🌍 Acceso
-
-* API: [http://localhost:8080](http://localhost:8080)
-* Frontend embebido con Thymeleaf o plantilla SB Admin 2
 
 ---
 
@@ -174,7 +214,7 @@ cd nutrizen
   <dependency>spring-boot-starter-web</dependency>
   <dependency>spring-boot-starter-security</dependency>
   <dependency>spring-boot-starter-data-jpa</dependency>
-  <dependency>mysql-connector-java</dependency>
+  <dependency>postgresql</dependency>
   <dependency>jjwt</dependency>
   <dependency>spring-boot-starter-thymeleaf</dependency>
 </dependencies>
@@ -207,7 +247,7 @@ cd nutrizen
 
 👨‍💻 Erik Herrera
 👨‍💻 Donovan Pilicita
-👩‍💻 Fernanda LLano
+👩‍💻 Fernanda Llano
 
 ---
 
@@ -218,3 +258,6 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para má
 ---
 
 🍏 **NutriZen — Comienza a cuidar lo que comes, de forma inteligente.**
+
+```
+
