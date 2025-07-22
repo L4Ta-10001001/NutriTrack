@@ -5,18 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="Gestión de usuarios de NutriTrack" />
+  <meta name="description" content="Análisis Nutricional de NutriTrack" />
   <meta name="author" content="NutriTrack Team" />
 
-  <title>NutriTrack - Gestión de Usuarios</title>
+  <title>Análisis Nutricional | NutriTrack</title>
 
   <!-- Fuentes e íconos -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Estilos -->
+  <!-- Estilos SB Admin 2 -->
   <link href="css/sb-admin-2.min.css" rel="stylesheet" />
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+  <style>
+    .alert-icon {
+      font-size: 1.2em;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -44,7 +50,7 @@
       </li>
 
       <!-- Gestión de Usuarios -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="usuarios.html">
           <i class="fas fa-users"></i>
           <span>Gestión de Usuarios</span>
@@ -57,7 +63,7 @@
           <span>Ingredientes</span>
         </a>
       </li>
-      
+
       <!-- Recetas -->
       <li class="nav-item">
         <a class="nav-link" href="recetas.html">
@@ -82,6 +88,12 @@
         </a>
       </li>
 
+      <li class="nav-item active">
+        <a class="nav-link" href="analisis-nutricional.html">
+          <i class="fas fa-search"></i>
+          <span>Análisis Nutricional</span>
+        </a>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link" href="recomendaciones.html">
@@ -132,36 +144,29 @@
 
         <!-- Main Content -->
         <div class="container-fluid">
-          <h1 class="h3 mb-4 text-gray-800">Gestión de Usuarios</h1>
+          <h1 class="h3 mb-4 text-gray-800">🔍 Análisis Nutricional</h1>
 
-          <div class="card shadow mb-4">
-            <div class="card-header bg-success text-white font-weight-bold">Listado de Usuarios</div>
-            <div class="card-body">
-              <!-- Botón para registrar nuevo usuario -->
-              <a href="registrar.html" class="btn btn-success mb-3">
-                <i class="fas fa-user-plus"></i> Registrar Nuevo Usuario
-              </a>
-
-              <div class="table-responsive">
-                <table class="table table-bordered" id="usuarios" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>Email</th>
-                      <th>Teléfono</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- Datos cargados dinámicamente -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="input-group mb-3">
+            <input type="text" id="alimentoInput" class="form-control" placeholder="Ej: Nutella, arroz, manzana...">
+            <button class="btn btn-success" onclick="buscar()">Buscar</button>
           </div>
-        </div> <!-- /.container-fluid -->
-      </div> <!-- /.content -->
+
+          <div id="resultado" style="display: none;">
+            <h3>📝 Resultado:</h3>
+            <ul class="list-group mb-3" id="datosNutricionales"></ul>
+
+            <h4>⚠️ Advertencias</h4>
+            <ul class="list-group mb-3" id="advertencias"></ul>
+
+            <h4>✅ Recomendaciones</h4>
+            <ul class="list-group" id="recomendaciones"></ul>
+          </div>
+
+          <div id="error" class="alert alert-danger mt-4" style="display: none;">
+            Producto no encontrado. Intenta con otro nombre.
+          </div>
+        </div>
+      </div>
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -205,7 +210,114 @@
   <!-- DataTables -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  <script src="js/usuarios.js"></script>
+
+  <script>
+  let alimentoActual = null;
+
+  async function buscar() {
+    const nombre = document.getElementById('alimentoInput').value.trim();
+    if (!nombre) return;
+
+    document.getElementById('resultado').style.display = 'none';
+    document.getElementById('error').style.display = 'none';
+
+    try {
+      const res = await fetch(`/api/nutricion/${encodeURIComponent(nombre)}`);
+      if (!res.ok) throw new Error("No encontrado");
+
+      const data = await res.json();
+      alimentoActual = data;
+
+      // Mostrar datos
+      const datosHTML = `
+        <li class="list-group-item">🍽️ Alimento: <strong>${data.name}</strong></li>
+        <li class="list-group-item">🔥 Calorías: ${data.calories} kcal</li>
+        <li class="list-group-item">🥩 Proteína: ${data.protein} g</li>
+        <li class="list-group-item">🧂 Sodio: ${data.sodium} mg</li>
+        <li class="list-group-item">🍬 Azúcar: ${data.sugar} g</li>
+        <li class="list-group-item">🥑 Grasa: ${data.fat} g</li>
+      `;
+      document.getElementById('datosNutricionales').innerHTML = datosHTML;
+
+      document.getElementById('advertencias').innerHTML = (data.advertencias || []).map(a => `<li class="list-group-item text-danger">${a}</li>`).join('') || '<li class="list-group-item">Sin advertencias.</li>';
+      document.getElementById('recomendaciones').innerHTML = (data.recomendaciones || []).map(r => `<li class="list-group-item text-success">${r}</li>`).join('') || '<li class="list-group-item">Sin recomendaciones.</li>';
+
+      document.getElementById('resultado').style.display = 'block';
+
+      mostrarBotonAgregar();
+    } catch (e) {
+      document.getElementById('error').style.display = 'block';
+    }
+  }
+
+  async function mostrarBotonAgregar() {
+    if (document.getElementById('boton-agregar')) return;
+
+    const contenedor = document.createElement('div');
+    contenedor.className = 'mt-3';
+    contenedor.id = 'boton-agregar';
+
+    contenedor.innerHTML = `
+      <button class="btn btn-success mb-2" onclick="mostrarSelectUsuarios()">➕ Agregar a Ingredientes</button>
+      <div id="select-usuario-container" style="display: none;">
+        <label for="select-usuario">Selecciona un usuario:</label>
+        <select class="form-control mb-2" id="select-usuario"></select>
+        <button class="btn btn-primary" onclick="agregarIngrediente()">✅ Confirmar</button>
+      </div>
+    `;
+
+    document.getElementById('resultado').appendChild(contenedor);
+  }
+
+  async function mostrarSelectUsuarios() {
+    const container = document.getElementById('select-usuario-container');
+    container.style.display = 'block';
+
+    const select = document.getElementById('select-usuario');
+    select.innerHTML = '<option>Cargando usuarios...</option>';
+
+    try {
+      const res = await fetch('/api/usuarios');
+      const usuarios = await res.json();
+
+      select.innerHTML = usuarios.map(u => `<option value="${u.email}">${u.nombre} (${u.email})</option>`).join('');
+    } catch (err) {
+      select.innerHTML = '<option>Error al cargar usuarios</option>';
+    }
+  }
+
+  async function agregarIngrediente() {
+    const email = document.getElementById('select-usuario').value;
+    if (!email || !alimentoActual) return alert("Debes seleccionar un usuario.");
+
+    const ingrediente = {
+      nombre: alimentoActual.name,
+      calorias: alimentoActual.calories,
+      grasa: alimentoActual.fat,
+      azucar: alimentoActual.sugar,
+      sodio: alimentoActual.sodium,
+      proteina: alimentoActual.protein,
+      usuarioEmail: email
+    };
+
+    try {
+      const res = await fetch('/api/ingredientes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(ingrediente)
+      });
+
+      if (res.ok) {
+        alert("✅ Ingrediente agregado con éxito.");
+      } else {
+        throw new Error("Error al guardar");
+      }
+    } catch (e) {
+      alert("❌ No se pudo guardar el ingrediente.");
+    }
+  }
+</script>
+
 </body>
 
 </html>

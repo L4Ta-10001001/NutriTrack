@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="Registro de Ingredientes" />
+    <meta name="author" content="NutriTrack Team" />
+
+    <title>NutriTrack - Registrar Ingrediente</title>
+
+    <!-- Fuentes e íconos -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet" />
+  </head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <!-- Sidebar (igual al de registrar-usuario.html, puedes reutilizar o incluir con plantilla) -->
+      <!-- Sidebar -->
+      <ul
+        class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion"
+        id="accordionSidebar"
+      >
+        <!-- Brand -->
+        <a
+          class="sidebar-brand d-flex align-items-center justify-content-center"
+          href="index.html"
+        >
+          <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-apple-alt"></i>
+          </div>
+          <div class="sidebar-brand-text mx-3">NutriTrack</div>
+        </a>
+
+        <hr class="sidebar-divider my-0" />
+
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="usuarios.html">
+            <i class="fas fa-users"></i>
+            <span>Gestión de Usuarios</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="ingredientes.html">
+            <i class="fas fa-fw fa-apple-alt"></i>
+            <span>Ingredientes</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="recetas.html">
+            <i class="fas fa-utensils"></i>
+            <span>Recetas</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="registrar-consumos.html">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Registro Consumo Nutricional</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="consumos.html">
+            <i class="fas fa-chart-pie"></i>
+            <span>Consumos</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="recomendaciones.html">
+            <i class="fas fa-fw fa-heartbeat"></i>
+            <span>Recomendaciones</span>
+          </a>
+        </li>
+
+        <hr class="sidebar-divider d-none d-md-block" />
+
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+      </ul>
+
+      <!-- ... [SIDEBAR OMITIDO POR BREVEDAD - Usa el mismo que en registrar-usuario.html] ... -->
+
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <!-- Topbar -->
+          <!-- Topbar -->
+            <button
+              id="sidebarToggleTop"
+              class="btn btn-link d-md-none rounded-circle mr-3"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+
+          </nav>
+          <!-- Topbar -->
+          <nav
+            class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+          >
+            <button
+              id="sidebarToggleTop"
+              class="btn btn-link d-md-none rounded-circle mr-3"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <ul class="navbar-nav ml-auto">
+              <div class="topbar-divider d-none d-sm-block"></div>
+
+              <li class="nav-item dropdown no-arrow">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                >
+                  <span
+                    class="mr-2 d-none d-lg-inline text-gray-600 small"
+                    id="txt-email-usuario"
+                    >admin@nutritrack.com</span
+                  >
+                  <img
+                    class="img-profile rounded-circle"
+                    src="img/undraw_profile.svg"
+                  />
+                </a>
+                <div
+                  class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="userDropdown"
+                >
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Perfil</a
+                  >
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Configuración</a
+                  >
+                  <div class="dropdown-divider"></div>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#logoutModal"
+                  >
+                    <i
+                      class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+                    ></i>
+                    Cerrar sesión
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <!-- Main Content -->
+          <div class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Registrar Nuevo Ingrediente</h1>
+
+            <div class="card shadow mb-4">
+              <div class="card-body">
+                <form class="user" id="formRegistrarIngrediente">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="txtNombre"
+                      placeholder="Nombre del Ingrediente"
+                      required
+                    />
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <input
+                        type="number"
+                        step="0.1"
+                        class="form-control form-control-user"
+                        id="txtCalorias"
+                        placeholder="Calorías"
+                        required
+                      />
+                    </div>
+                    <div class="col-sm-6">
+                      <input
+                        type="number"
+                        step="0.1"
+                        class="form-control form-control-user"
+                        id="txtGrasa"
+                        placeholder="Grasa (g)"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <input
+                        type="number"
+                        step="0.1"
+                        class="form-control form-control-user"
+                        id="txtAzucar"
+                        placeholder="Azúcar (g)"
+                        required
+                      />
+                    </div>
+                    <div class="col-sm-6">
+                      <input
+                        type="number"
+                        step="0.1"
+                        class="form-control form-control-user"
+                        id="txtSodio"
+                        placeholder="Sodio (mg)"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="number"
+                      step="0.1"
+                      class="form-control form-control-user"
+                      id="txtProteina"
+                      placeholder="Proteína (g)"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <select
+                      class="form-control"
+                      id="selectUsuarioEmail"
+                      required
+                    >
+                      <option value="">Seleccionar usuario</option>
+                      <!-- Opciones se llenan dinámicamente -->
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-user btn-block"
+                  >
+                    Registrar Ingrediente
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>© NutriTrack 2025</span>
+            </div>
+          </div>
+        </footer>
+      </div>
+      <!-- /.content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <script>
+      // Cargar usuarios para el combo box
+      $(document).ready(function () {
+        $.ajax({
+          url: "http://localhost:8080/api/usuarios", // Ajusta al endpoint real de tu backend
+          method: "GET",
+          success: function (usuarios) {
+            usuarios.forEach((usuario) => {
+              $("#selectUsuarioEmail").append(
+                `<option value="${usuario.email}">${usuario.email}</option>`
+              );
+            });
+          },
+          error: function () {
+            alert("Error al cargar usuarios.");
+          },
+        });
+
+        // Registrar ingrediente
+        $("#formRegistrarIngrediente").submit(function (e) {
+          e.preventDefault();
+
+          const data = {
+            nombre: $("#txtNombre").val(),
+            calorias: parseFloat($("#txtCalorias").val()),
+            grasa: parseFloat($("#txtGrasa").val()),
+            azucar: parseFloat($("#txtAzucar").val()),
+            sodio: parseFloat($("#txtSodio").val()),
+            proteina: parseFloat($("#txtProteina").val()),
+            usuarioEmail: $("#selectUsuarioEmail").val(),
+          };
+
+          $.ajax({
+            url: "http://localhost:8080/api/ingredientes",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function () {
+              alert("Ingrediente registrado con éxito");
+              $("#formRegistrarIngrediente")[0].reset();
+            },
+            error: function () {
+              alert("Error al registrar el ingrediente.");
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
