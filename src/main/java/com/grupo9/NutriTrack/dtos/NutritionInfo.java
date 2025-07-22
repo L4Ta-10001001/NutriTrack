@@ -1,12 +1,21 @@
 package com.grupo9.NutriTrack.dtos;
 
-public class NutritionInfo {
-    public String name;
-    public double calories;
-    public double fat;
-    public double sugar;
-    public double sodium;
-    public double protein;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    // Constructor, getters y setters (puedes generarlos con tu IDE)
+@Data // genera automáticamente getters, setters, toString, equals, hashCode
+@NoArgsConstructor
+@AllArgsConstructor
+public class NutritionInfo {
+  private String name;
+  private double calories;
+  private double fat;
+  private double sugar;
+  private double sodium;
+  private double protein;
+
+  private List<String> advertencias;
+  private List<String> recomendaciones;
 }
